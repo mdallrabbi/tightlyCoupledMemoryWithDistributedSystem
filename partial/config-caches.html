@@ -1,0 +1,34 @@
+<div class="panel-body" ng-controller="ConfigCachesCtrl">
+	<div ui-grid="gridCachesOptions" ui-grid-edit ui-grid-selection></div>
+	<form class="form-horizontal" role="form" style="margin: 1em">
+		<div class="btn-group" role="group">
+			<button type="button" class="btn btn-default btn-sm" ng-click="addNewCache()">
+				<span class="glyphicon glyphicon-plus"></span>
+				Add cache
+			</button>
+			<button type="button" class="btn btn-default btn-sm" ng-click="delCaches()">
+				<span class="glyphicon glyphicon-remove"></span>
+				 Delete selected caches(s)
+			</button>
+		</div>
+	</form>
+	
+	<table class="table table-hover table-striped table-bordered">
+		<thead>
+			<tr>
+				<th>Processor</th>
+				<th ng-repeat="cache in conf.caches">{{cache.name}} ({{cache.id}})</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="proc in conf.processors">
+				<td>{{proc.name}} ({{proc.id}})</td>
+				<th ng-repeat="cache in conf.caches">
+					<input type="checkbox" 
+						ng-model="isAssociated(proc, cache)" 
+						ng-model-options="{ getterSetter: true}"></input>
+				</th>
+			</tr>
+		</tbody>
+	</table>
+</div>

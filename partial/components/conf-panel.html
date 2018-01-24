@@ -1,0 +1,9 @@
+<div class="panel panel-primary">
+	<div class="well well-sm" 
+		data-toggle="collapse"
+		style="margin-bottom: 0px; cursor: pointer;"
+		data-target="#collapse{{ title }}"><b>{{title}}</b></div>
+	<div id="collapse{{ title }}" class="panel-collapse collapse in">
+		<ng:include src="'partial/'+html"></ng:include>
+	</div>
+</div>

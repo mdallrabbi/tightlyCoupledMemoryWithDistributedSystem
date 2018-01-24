@@ -1,0 +1,87 @@
+<div id="confContainer" class="container">
+
+
+	
+	<div style="margin-top: -1.75em; margin-bottom: 1.75em;">
+		<div class="well" ng-show="!pypyready">
+			<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> SimSo is currently loading, please wait...
+		</div>
+		
+		<div class="progress" ng-show="simRunning">
+			<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100"
+				 aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+				 Simulation running...
+			</div>
+		</div>
+		
+		<div ng-show="!schedHasErrors && schedRun" class="alert alert-success" role="alert">
+				Simulation successfull.
+				<a href="#results"><span class="glyphicon glyphicon-share-alt"></span> Go to results</a>
+		</div>
+		
+		<div ng-show="schedHasErrors" class="alert alert-danger" role="alert">
+				<span style="margin-right: 1em">
+					<button onclick="$('#modalSchedErrorLog').modal('show'); "
+				    class="btn btn-default btn-danger">
+							<span class="glyphicon glyphicon-error"></span>
+							Show errors
+					</button>
+				</span>
+				An error has occured during the simulation. Please click the 'Show errors' button for more details.
+		</div>
+	</div>
+	<div ng-show="pypyready" class="well">
+		<center>
+			<button ng-click="run()" class="btn btn-default btn-circle btn-xl" ng-disabled="!pypyready"
+				    data-toggle="tooltip" data-placement="right" title="Runs the simulation. This might take a few minutes.">
+				<span class="glyphicon glyphicon-play"></span>
+			</button>
+		</center>
+		<div class="btn-toolbar" role="toolbar" style="text-align: right; margin: -1em">
+			<div class="btn-group pull-right" role="group" ng-show="!conf.expertMode">
+				<button ng-click="conf.expertMode = true; fixLayout();" type="button" class="btn btn-default btn-warning">Switch to Expert mode</button>
+			</div>
+			<div class="btn-group pull-right" role="group" ng-show="conf.expertMode">
+				<button ng-click="conf.expertMode = false; fixLayout();" type="button" class="btn btn-default btn-warning">Switch to Basic mode</button>
+			</div>
+			
+			<div class="btn-group" role="group">
+				<div ng-include="'partial/xml-download-modal.html'"></div>
+				<a class = "btn btn-default" ng-disabled="!pypyready"
+					ng-click="onXMLExport()"
+					data-toggle="tooltip" data-placement="top" title="Saves the current configuration to a XML file (for use in original Simso).">
+					<span class="glyphicon glyphicon-save"></span> Export (XML)
+				</a>
+				
+				<a id="config-download" class="btn btn-default" ng-disabled="!pypyready" download="configuration.json"
+					data-toggle="tooltip" data-placement="top" title="Saves the current configuration to a JSON file."
+					href="data:application/json;charset=utf-8,nodata" ng-click="onJSONExport()">
+					<span class="glyphicon glyphicon-save"></span> Export (json)
+				</a>
+				<button ng-click="onJSONImport()" id="config-upfile-btn" class="btn btn-default" 
+					data-toggle="tooltip" data-placement="top" title="Loads a configuration file from your computer."
+					ng-disabled="!pypyready">
+					<span class="glyphicon glyphicon-open"></span> Import (json)
+				</button>
+			</div>
+		</div>
+
+
+	</div>
+	
+	<input filecontent="tmp.importedJSON" 
+		id="config-upfile" 
+		type="file" 
+		style="visibility: hidden; height: 0px;" ></input>
+		
+	<div ng-include="'partial/config-errors-modal.html'"></div>
+
+
+	<conf-panel title="'Memory Allocation'" html="'config-general.html'"></conf-panel>
+	<conf-panel title="'System Distribution'" html="'config-scheduler.html'"></conf-panel>
+	<conf-panel title="'Operational Task'" html="'config-tasks.html'"></conf-panel>
+	<conf-panel ng-show="conf.expertMode" title="'Processors'" html="'config-processors.html'"></conf-panel>
+	<conf-panel ng-show="false" title="'Caches'" html="'config-caches.html'"></conf-panel>
+</div>
+
+

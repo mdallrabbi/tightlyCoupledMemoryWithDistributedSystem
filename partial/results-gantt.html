@@ -1,0 +1,40 @@
+<div class="panel-body" ng-controller="GanttListControler">
+	<div ui-grid="gridGanttOptions" ui-grid-edit ui-grid-selection></div>
+	<div class="input-group" ng-hide="selectedItems.length == 0">
+		<label for="btn-zoom-minus" class="control-label col-sm-1">Zoom(%):</label>
+		<span  class="input-group-btn" id="btn-zoom-minus">
+			<button ng-click="zoomMinus()" type="button" class="btn btn-default btn-number">
+				<span class="glyphicon glyphicon-minus"></span>
+			</button>
+		</span>
+		
+		<input 
+			type="number" 
+			ng-model="ganttZoomProperty"  
+			ng-model-options="{getterSetter: true}"
+			name="zoom-tb" class="form-control input-number" value="100">
+			
+		<span class="input-group-btn">
+			<button  ng-click="zoomPlus()" type="button" class="btn btn-default btn-number">
+				<span class="glyphicon glyphicon-plus"></span>
+			</button>
+		</span>
+	
+	</div>
+	
+	<div style="margin: 1em">
+		<a  id="gantt-download" class="btn btn-default" download="gantt.png"
+			href="data:image/png,nodata" ng-click="onGanttExport(false)">
+			<span class="glyphicon glyphicon-save"></span> Save selected as png
+		</a>
+	</div>
+	
+	<div style="overflow:auto; margin-left:auto; margin-right:auto;">
+		<div ng-controller="GanttControler" ng-repeat="item in conf.allGanttItems">
+			<canvas ng-hide="isDisabled()" gantt id="resultsGantt{{item.type}}{{item.id}}"></canvas>
+		</div>
+	</div>
+	
+	
+	<canvas style="display: none;" id="buffer"></canvas>
+<div>
